@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resumo e Gerenciamento - Lava Jato</title>
+    <title>Resumo dos Clientes - Lava Jato</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -21,7 +21,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 600px;
+            width: 800px;
         }
 
         h1 {
@@ -35,7 +35,7 @@
             border-collapse: collapse;
         }
 
-        table, th, td {
+        th, td {
             border: 1px solid #ccc;
             text-align: center;
             padding: 8px;
@@ -45,16 +45,17 @@
             background-color: #f2f2f2;
         }
 
-        button {
+        .edit-btn, .delete-btn, .back-btn {
             padding: 5px 10px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            margin: 2px;
+            color: white;
         }
 
         .edit-btn {
             background-color: #808080; /* Cinza */
-            color: white;
         }
 
         .edit-btn:hover {
@@ -63,67 +64,87 @@
 
         .delete-btn {
             background-color: #dc3545; /* Vermelho */
-            color: white;
         }
 
         .delete-btn:hover {
             background-color: #c82333;
         }
+
+        .back-btn {
+            background-color: #007bff; /* Azul */
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Resumo do Serviço</h1>
-        <table id="summaryTable">
+        <h1>Clientes Cadastrados</h1>
+        <table id="customerTable">
             <thead>
                 <tr>
                     <th>Nome</th>
                     <th>Placa</th>
-                    <th>Veículo</th>
+                    <th>Modelo</th>
                     <th>Serviço</th>
                     <th>Ações</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td id="summaryCustomerName"></td>
-                    <td id="summaryLicensePlate"></td>
-                    <td id="summaryVehicleType"></td>
-                    <td id="summaryService"></td>
-                    <td>
-                        <button class="edit-btn" onclick="editCustomer()">Editar</button>
-                        <button class="delete-btn" onclick="deleteCustomer()">Excluir</button>
-                    </td>
-                </tr>
+            <tbody id="customerTableBody">
+                <!-- Lista de clientes será carregada aqui -->
             </tbody>
         </table>
+        <button class="back-btn" onclick="window.location.href='index.html'">Voltar para Cadastro</button>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Preencher a tabela de resumo com os dados do cliente e do serviço
-            document.getElementById('summaryCustomerName').textContent = localStorage.getItem('customerName');
-            document.getElementById('summaryLicensePlate').textContent = localStorage.getItem('licensePlate');
-            document.getElementById('summaryVehicleType').textContent = localStorage.getItem('vehicleType');
-            document.getElementById('summaryService').textContent = localStorage.getItem('service');
-        });
+        function renderCustomerTable() {
+            const customerTableBody = document.getElementById('customerTableBody');
+            const allCustomers = JSON.parse(localStorage.getItem('allCustomers')) || [];
+            customerTableBody.innerHTML = '';
 
-        function editCustomer() {
-            // Recarregar os dados para edição
-            localStorage.setItem('editing', true);
+            allCustomers.forEach((customer, index) => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${customer.name}</td>
+                    <td>${customer.plate}</td>
+                    <td>${customer.model}</td>
+                    <td>${customer.service}</td>
+                    <td>
+                        <button class="edit-btn" onclick="editCustomer(${index})">Editar</button>
+                        <button class="delete-btn" onclick="deleteCustomer(${index})">Excluir</button>
+                    </td>
+                `;
+                
+                customerTableBody.appendChild(row);
+            });
+        }
+
+        function editCustomer(index) {
+            const allCustomers = JSON.parse(localStorage.getItem('allCustomers')) || [];
+            const customer = allCustomers[index];
+
+            // Atualiza o cliente para reeditá-lo
+            localStorage.setItem('currentCustomer', JSON.stringify(customer));
+
+            // Redireciona para a página de cadastro
             window.location.href = 'index.html';
         }
 
-        function deleteCustomer() {
-            // Remover os dados do localStorage
-            localStorage.removeItem('customerName');
-            localStorage.removeItem('licensePlate');
-            localStorage.removeItem('vehicleType');
-            localStorage.removeItem('service');
+        function deleteCustomer(index) {
+            let allCustomers = JSON.parse(localStorage.getItem('allCustomers')) || [];
+            allCustomers.splice(index, 1);
+            localStorage.setItem('allCustomers', JSON.stringify(allCustomers));
 
-            // Voltar para a página de cadastro
-            window.location.href = 'index.html';
+            renderCustomerTable();
         }
+
+        document.addEventListener('DOMContentLoaded', renderCustomerTable);
     </script>
 </body>
 </html>

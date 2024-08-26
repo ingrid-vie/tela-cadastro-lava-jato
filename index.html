@@ -3,8 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro - Lava Jato</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Cadastro de Cliente - Lava Jato</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #d3d3d3; /* Cinza claro */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        input[type="text"], select {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: calc(100% - 16px);
+        }
+
+        button {
+            padding: 10px;
+            background-color: #90ee90; /* Verde claro */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #7ecb7e;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -12,16 +63,26 @@
         <form id="registrationForm">
             <input type="text" id="customerName" placeholder="Nome do Cliente" required>
             <input type="text" id="licensePlate" placeholder="Placa do Veículo" required>
-            <select id="vehicleType" required>
-                <option value="">Tipo de Veículo</option>
-                <option value="Carro">Carro</option>
-                <option value="Moto">Moto</option>
-            </select>
-            <button type="submit">Avançar para Serviços</button>
+            <input type="text" id="vehicleModel" placeholder="Modelo do Veículo" required>
+            <button type="submit">Avançar</button>
         </form>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const customerName = document.getElementById('customerName').value;
+            const licensePlate = document.getElementById('licensePlate').value;
+            const vehicleModel = document.getElementById('vehicleModel').value;
+
+            // Salvar os dados no localStorage para simular um banco de dados
+            const customerData = { name: customerName, plate: licensePlate, model: vehicleModel, service: '' };
+            localStorage.setItem('currentCustomer', JSON.stringify(customerData));
+
+            // Redirecionar para a página de serviços
+            window.location.href = 'services.html';
+        });
+    </script>
 </body>
 </html>
-
-

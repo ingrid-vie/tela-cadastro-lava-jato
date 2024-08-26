@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Folha de Serviço - Lava Jato</title>
+    <title>Escolha de Serviço - Lava Jato</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -35,12 +34,12 @@
             margin-top: 20px;
         }
 
-        .service {
+        select {
             margin-bottom: 10px;
-        }
-
-        input[type="radio"] {
-            margin-right: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: calc(100% - 16px);
         }
 
         button {
@@ -60,57 +59,39 @@
 </head>
 <body>
     <div class="container">
-        <h1>Folha de Serviço</h1>
-        <p id="customerInfo"></p>
-        <form id="servicesForm">
-            <div class="service">
-                <input type="radio" id="washExterior" name="service" value="Lavagem Exterior - 1h" required>
-                <label for="washExterior">Lavagem Exterior - 1h</label>
-            </div>
-            <div class="service">
-                <input type="radio" id="washInterior" name="service" value="Lavagem Interior - 1h">
-                <label for="washInterior">Lavagem Interior - 1h</label>
-            </div>
-            <div class="service">
-                <input type="radio" id="fullWash" name="service" value="Lavagem Completa - 2h">
-                <label for="fullWash">Lavagem Completa - 2h</label>
-            </div>
-            <div class="service">
-                <input type="radio" id="waxing" name="service" value="Enceramento - 1.5h">
-                <label for="waxing">Enceramento - 1.5h</label>
-            </div>
-            <button type="submit">Concluir e Voltar à Página Principal</button>
+        <h1>Escolha o Serviço</h1>
+        <form id="serviceForm">
+            <select id="serviceType" required>
+                <option value="">Selecione o Serviço</option>
+                <option value="Lavagem Completa - 1h">Lavagem Completa - 1h</option>
+                <option value="Lavagem Interna - 1h">Lavagem Interna - 1h</option>
+                <option value="Lavagem Externa - 30min">Lavagem Externa - 30min</option>
+                <option value="Polimento - 2h">Polimento - 2h</option>
+            </select>
+            <button type="submit">Salvar Serviço</button>
         </form>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const customerInfo = document.getElementById('customerInfo');
+        document.getElementById('serviceForm').addEventListener('submit', function(event) {
+            event.preventDefault();
 
-            if (customerInfo) {
-                // Recuperar os dados do cliente do localStorage
-                const customerName = localStorage.getItem('customerName');
-                const licensePlate = localStorage.getItem('licensePlate');
-                const vehicleType = localStorage.getItem('vehicleType');
+            const serviceType = document.getElementById('serviceType').value;
+            const currentCustomer = JSON.parse(localStorage.getItem('currentCustomer'));
 
-                // Exibir as informações do cliente
-                customerInfo.textContent = `Cliente: ${customerName}, Veículo: ${vehicleType}, Placa: ${licensePlate}`;
-            }
+            if (currentCustomer) {
+                currentCustomer.service = serviceType;
+                localStorage.setItem('currentCustomer', JSON.stringify(currentCustomer));
 
-            document.getElementById('servicesForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                // Capturar o serviço selecionado
-                const service = document.querySelector('input[name="service"]:checked').value;
-
-                // Armazenar o serviço no localStorage
-                localStorage.setItem('service', service);
+                // Simular salvamento em um banco de dados (localStorage)
+                let allCustomers = JSON.parse(localStorage.getItem('allCustomers')) || [];
+                allCustomers.push(currentCustomer);
+                localStorage.setItem('allCustomers', JSON.stringify(allCustomers));
 
                 // Redirecionar para a página de resumo
                 window.location.href = 'summary.html';
-            });
+            }
         });
     </script>
 </body>
 </html>
-
