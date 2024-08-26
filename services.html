@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Folha de Serviço - Lava Jato</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #d3d3d3; /* Cinza claro */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .service {
+            margin-bottom: 10px;
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #90ee90; /* Verde claro */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #7ecb7e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Folha de Serviço</h1>
+        <p id="customerInfo"></p>
+        <form id="servicesForm">
+            <div class="service">
+                <input type="radio" id="washExterior" name="service" value="Lavagem Exterior - 1h" required>
+                <label for="washExterior">Lavagem Exterior - 1h</label>
+            </div>
+            <div class="service">
+                <input type="radio" id="washInterior" name="service" value="Lavagem Interior - 1h">
+                <label for="washInterior">Lavagem Interior - 1h</label>
+            </div>
+            <div class="service">
+                <input type="radio" id="fullWash" name="service" value="Lavagem Completa - 2h">
+                <label for="fullWash">Lavagem Completa - 2h</label>
+            </div>
+            <div class="service">
+                <input type="radio" id="waxing" name="service" value="Enceramento - 1.5h">
+                <label for="waxing">Enceramento - 1.5h</label>
+            </div>
+            <button type="submit">Concluir e Voltar à Página Principal</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const customerInfo = document.getElementById('customerInfo');
+
+            if (customerInfo) {
+                // Recuperar os dados do cliente do localStorage
+                const customerName = localStorage.getItem('customerName');
+                const licensePlate = localStorage.getItem('licensePlate');
+                const vehicleType = localStorage.getItem('vehicleType');
+
+                // Exibir as informações do cliente
+                customerInfo.textContent = `Cliente: ${customerName}, Veículo: ${vehicleType}, Placa: ${licensePlate}`;
+            }
+
+            document.getElementById('servicesForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                // Capturar o serviço selecionado
+                const service = document.querySelector('input[name="service"]:checked').value;
+
+                // Armazenar o serviço no localStorage
+                localStorage.setItem('service', service);
+
+                // Redirecionar para a página de resumo
+                window.location.href = 'summary.html';
+            });
+        });
+    </script>
+</body>
+</html>
+

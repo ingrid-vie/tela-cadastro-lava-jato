@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Lava Jato</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cadastro de Cliente</h1>
+        <form id="registrationForm">
+            <input type="text" id="customerName" placeholder="Nome do Cliente" required>
+            <input type="text" id="licensePlate" placeholder="Placa do Veículo" required>
+            <select id="vehicleType" required>
+                <option value="">Tipo de Veículo</option>
+                <option value="Carro">Carro</option>
+                <option value="Moto">Moto</option>
+            </select>
+            <button type="submit">Avançar para Serviços</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
