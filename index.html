@@ -15,7 +15,6 @@
             align-items: center;
             height: 100vh;
         }
-
         .container {
             background-color: #d3d3d3; /* Cinza claro */
             padding: 20px;
@@ -23,17 +22,14 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 400px;
         }
-
         h1 {
             text-align: center;
             color: #333;
         }
-
         form {
             width: 100%;
             margin-top: 20px;
         }
-
         input[type="text"], select {
             margin-bottom: 10px;
             padding: 8px;
@@ -41,7 +37,6 @@
             border-radius: 4px;
             width: calc(100% - 16px);
         }
-
         button {
             padding: 10px;
             background-color: #90ee90; /* Verde claro */
@@ -51,7 +46,6 @@
             cursor: pointer;
             width: 100%;
         }
-
         button:hover {
             background-color: #7ecb7e;
         }
@@ -67,19 +61,15 @@
             <button type="submit">Avançar</button>
         </form>
     </div>
-
     <script>
         document.getElementById('registrationForm').addEventListener('submit', function(event) {
             event.preventDefault();
-
             const customerName = document.getElementById('customerName').value;
             const licensePlate = document.getElementById('licensePlate').value;
             const vehicleModel = document.getElementById('vehicleModel').value;
-
             // Salvar os dados no localStorage para simular um banco de dados
             const customerData = { name: customerName, plate: licensePlate, model: vehicleModel, service: '' };
             localStorage.setItem('currentCustomer', JSON.stringify(customerData));
-
             // Redirecionar para a página de serviços
             window.location.href = 'services.html';
         });
